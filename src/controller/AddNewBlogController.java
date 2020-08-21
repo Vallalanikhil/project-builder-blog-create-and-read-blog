@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.BlogDaoImpl;
 import model.Blog;
-
+//import LocalDate postedOn = LocalDate.now();
 
 @WebServlet(urlPatterns = {"/new"})
 public class AddNewBlogController extends HttpServlet {
@@ -30,18 +32,28 @@ public class AddNewBlogController extends HttpServlet {
 		LocalDate postedOn = LocalDate.now();
 		System.out.println(blogTitle);
 		Blog blog = new Blog();
-	//	blog.setBlogId(++i);
+	blog.setBlogId(++i);
 		blog.setBlogTitle(blogTitle);
 		blog.setBlogDescription(blogDescription);
 		blog.setPostedOn(postedOn);
 		
 		BlogDaoImpl blogDao = new BlogDaoImpl();
-		blogDao.insertBlog(blog);
+		try {
+			blogDao.insertBlog(blog);
+			System.out.println("value add");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect("allblogs");
-		/*
-		 * RequestDispatcher rd=this.getServletContext().getRequestDispatcher(
-		 * "/WEB-INF/views/blogView.jsp"); rd.forward(request, response);
-		 */
+//		  RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/blogView.jsp");
+//		 
+//		  rd.forward(request, response);
+//		  
+		 
 		
 	}
 }

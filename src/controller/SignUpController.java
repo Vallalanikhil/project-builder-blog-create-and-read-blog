@@ -54,25 +54,33 @@ public class SignUpController extends HttpServlet {
 		user.setPassword(password);
 		UserDAO userdao=new UserDAO();
 		user.setDate(date);
-		int checkUser = userdao.signUp(user);
 		
-		if(checkUser!=0)
-		{
-						
-			System.out.println(user.getEmail());
-			System.out.println(user.getPassword());
-			System.out.println(user.getDate());
-			request.setAttribute("message", "Registration Successful");
-			RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/signupView.jsp");
-			rd.forward(request, response);
-		}
-		else
-		{
-			request.setAttribute("message", "Check your email and password");
-			RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/signupView.jsp");
-			rd.forward(request, response);
+		int checkUser;
+		try {
+			checkUser = userdao.signUp(user);
+			if(checkUser!=0)
+			{
+							
+				System.out.println(user.getEmail());
+				System.out.println(user.getPassword());
+				System.out.println(user.getDate());
+				request.setAttribute("message", "Registration Successful");
+				RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/signupView.jsp");
+				rd.forward(request, response);
+			}
+			else
+			{
+				request.setAttribute("message", "Check your email and password");
+				RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/signupView.jsp");
+				rd.forward(request, response);
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
+	
 		
 	}
 
